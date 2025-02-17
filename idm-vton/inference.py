@@ -217,7 +217,7 @@ def generate(human, garm_imgs, categories, device):
         "Bottom": "lower_body"
     }
     try:
-        args = parse_args(device)
+        args = parse_args(device, 50)
         output = try_on(human, garm_imgs[0], label[categories[0]], device, args)
         output = try_on(output, garm_imgs[1], label[categories[1]], device, args)
     except torch.cuda.OutOfMemoryError as e:
