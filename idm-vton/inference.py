@@ -21,7 +21,7 @@ from preprocess.openpose.run_openpose import OpenPose
 from detectron2.data.detection_utils import convert_PIL_to_numpy,_apply_exif_orientation
 from torchvision.transforms.functional import to_pil_image
 
-def parse_args(device, denoise_steps=30):
+def parse_args(device, denoise_steps):
     Float_device = torch.float32
     if device == "cuda":
         Float_device = torch.float16
@@ -134,7 +134,7 @@ def try_on(human, garm_img, category, device, args):
     human_img_arg = convert_PIL_to_numpy(human_img_arg, format="BGR")
 
     # temp_args = apply_net.create_argument_parser().parse_args(('show', './configs/densepose_rcnn_R_50_FPN_s1x.yaml', './ckpt/densepose/model_final_162be9.pkl', 'dp_segm', '-v', '--opts', 'MODEL.device', 'cuda'))
-    temp_args = apply_net.create_argument_parser().parse_args(('show', './implementation/idm-vton/configs/densepose_rcnn_R_50_FPN_s1x.yaml', './implementation/idm-vton/ckpt/densepose/model_final_162be9.pkl', 'dp_segm', '-v', '--opts', 'MODEL.DEVICE', 'cuda'))
+    temp_args = apply_net.create_argument_parser().parse_args(('show', './idm-vton/configs/densepose_rcnn_R_50_FPN_s1x.yaml', './idm-vton/ckpt/densepose/model_final_162be9.pkl', 'dp_segm', '-v', '--opts', 'MODEL.DEVICE', device))
     # verbosity = getattr(temp_args, "verbosity", None)
 
     pose_img = temp_args.func(temp_args,human_img_arg)    
@@ -203,7 +203,7 @@ def try_on(human, garm_img, category, device, args):
 
     return output[0]
 
-def generate(human, garm_imgs, categories, device):
+def generate(human, garm_imgs, categories, device, seed=30):
     """
     generate virtual try-on by IDM-VTON
     human = PIL object: human picture
@@ -217,31 +217,15 @@ def generate(human, garm_imgs, categories, device):
         "Bottom": "lower_body"
     }
     try:
-        args = parse_args(device, 50)
+        args = parse_args(device, seed)
         output = try_on(human, garm_imgs[0], label[categories[0]], device, args)
-        output = try_on(output, garm_imgs[1], label[categories[1]], device, args)
+        if categories[0] != "Dress":
+            output = try_on(output, garm_imgs[1], label[categories[1]], device, args)
     except torch.cuda.OutOfMemoryError as e:
-        args = parse_args("cpu")
+        args = parse_args("cpu", seed)
         output = try_on(human, garm_imgs[0], label[categories[0]], "cpu", args)
-        output = try_on(output, garm_imgs[1], label[categories[1]], "cpu", args)
+        if categories[0] != "Dress":
+            output = try_on(output, garm_imgs[1], label[categories[1]], "cpu", args)
     
     
     return output
-
-def main():
-    path = "./implementation/idm-vton/input/000015_0.png"
-    human = Image.open(path).convert("RGBA")
-    garm_imgs = []
-    path = "./implementation/idm-vton/input/upperwear_tshirt1120.png"
-    garm_imgs.append(Image.open(path).convert("RGBA"))
-    path = "./implementation/idm-vton/input/0.png"
-    garm_imgs.append(Image.open(path).convert("RGBA"))
-    categories = []
-    categories.append("Top")
-    categories.append("Bottom")
-    im = generate(human, garm_imgs, categories, "cuda")
-    im.show()
-    im.save("./implementation/idm-vton/output/seed50.png")
-
-if __name__ == "__main__":
-    main()

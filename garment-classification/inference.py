@@ -3,15 +3,15 @@ from torch.nn.functional import softmax
 import torchvision.transforms as T
 
 transform = T.Compose([
-        T.Resize((32, 32)),
-        T.ToTensor(),
-        T.Normalize((0.5,), (0.5,))
-    ])
+    T.Resize((32, 32)),
+    T.ToTensor(),
+    T.Normalize((0.5,), (0.5,))
+])
 LABEL = {
     "big_category": ['Bottom', 'Dress', 'Footwear', 'Top'],
-    "Top": ['Shirt', 'Tshirt', 'Hoodie', 'Sweater', 'PoloShirt'],
+    "Top": ['Shirt', 'Tshirt', 'Hoodie', 'Sweater', 'Polo Shirt'],
     "Bottom": ['Pants', 'Shorts', 'Skirt'],
-    "Footwear": ['Flats', 'Heels', '1hoes', 'Sneakers']
+    "Footwear": ['Flats', 'Heels', 'Shoes', 'Sneakers']
 }
 MODEL_PATH = {
     "big_category": "./garment-classification/model/big_category.pt",

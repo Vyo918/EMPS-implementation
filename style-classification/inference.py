@@ -3,11 +3,11 @@ from torch.nn.functional import softmax
 import torchvision.transforms as T
 
 transform = T.Compose([
-        T.Resize((224, 224)),
-        T.ToTensor(),
-        T.Normalize([0.485, 0.456, 0.406],
-                             [0.229, 0.224, 0.225])
-    ])   
+    T.Resize((224, 224)),
+    T.ToTensor(),
+    T.Normalize([0.485, 0.456, 0.406],
+                            [0.229, 0.224, 0.225])
+])   
 LABEL = ['Bohemian', 'Casual', 'Formal', 'Semi-formal', 'Sporty', 'Streetwear']
 MODEL_PATH = "./style-classification/model/model.pt"
 
