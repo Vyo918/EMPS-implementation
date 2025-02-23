@@ -1,5 +1,4 @@
-largefile.ext filter=lfs diff=lfs merge=lfs -text
-idm-vton/ckpt/densepose/model_final_162be9.pkl filter=lfs diff=lfs merge=lfs -text
-idm-vton/ckpt/humanparsing/parsing_atr.onnx filter=lfs diff=lfs merge=lfs -text
-idm-vton/ckpt/humanparsing/parsing_lip.onnx filter=lfs diff=lfs merge=lfs -text
-idm-vton/ckpt/openpose/ckpts/body_pose_model.pth filter=lfs diff=lfs merge=lfs -text
+idm_vton/ckpt/densepose/model_final_162be9.pkl filter=lfs diff=lfs merge=lfs -text
+idm_vton/ckpt/humanparsing/parsing_atr.onnx filter=lfs diff=lfs merge=lfs -text
+idm_vton/ckpt/humanparsing/parsing_lip.onnx filter=lfs diff=lfs merge=lfs -text
+idm_vton/ckpt/openpose/ckpts/body_pose_model.pth filter=lfs diff=lfs merge=lfs -text
