@@ -57,7 +57,7 @@ def main():
     categories.append("Bottom")
 
     im = idm_vton.inference.generate(human, garm_imgs, categories, device)
-    im.show()
+    # im.show()
     im.save("./output/idm-vton(tshirt_pants).png")
 
         # DRESS
@@ -73,7 +73,7 @@ def main():
     categories.append("Dress")
 
     im = idm_vton.inference.generate(human, garm_imgs, categories, device)
-    im.show()
+    # im.show()
     im.save("./output/idm-vton(dress).png")
 
     # TESTING style CLASSIFICATION
